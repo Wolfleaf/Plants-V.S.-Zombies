@@ -17,11 +17,13 @@ public class Resource implements ActionListener {
 		return coolDownString;
 	}
 
-	public void resetCoolDown() {
+	public void resetCoolDown() 
+	{
 		coolDownCounter = coolDown;
 	}
 
-	public void decrementCoolDown() {
+	public void decrementCoolDown() 
+	{
 		coolDownCounter--;
 	}
 
@@ -29,7 +31,8 @@ public class Resource implements ActionListener {
 		decrementCoolDown();
 	}
 
-	public boolean readyForAction() {
+	public boolean readyForAction() 
+	{
 		if (coolDownCounter <= 0)
 			return true;
 		return false;
@@ -56,7 +59,8 @@ public class Resource implements ActionListener {
 		timer.start();
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 //		System.out.println(toString());
 		this.update();
 

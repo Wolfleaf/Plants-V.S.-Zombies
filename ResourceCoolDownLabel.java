@@ -11,14 +11,16 @@ public class ResourceCoolDownLabel extends JLabel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private Timer timer;
 	
-	public ResourceCoolDownLabel() {
+	public ResourceCoolDownLabel() 
+	{
 		super("0"); 
-		timer = new Timer(300, this);
+		timer = new Timer(50, this);
 		timer.start();
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 		Resource resource = new Resource();
 		setText("Time Until Next Resource: " + resource.getCoolDown());
 		

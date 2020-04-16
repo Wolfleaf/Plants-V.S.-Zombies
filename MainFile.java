@@ -17,50 +17,58 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class MainFile extends JPanel implements ActionListener {
-
+public class MainFile extends JPanel implements ActionListener 
+{
 	private static final long serialVersionUID = 1L;
-	private Timer timer;
-	private ArrayList<Actor> actors; // Plants and zombies all go in here
+	
+	private Timer timer; //Creates the timer that will actually run the game (creating fps)
+	private ArrayList<Actor> actors; // All Sprites, like Plants and Zombies, will go in this ArrayList
+	
+	//All Images that will be used for the game:
 	BufferedImage plantImage; // Maybe these images should be in those classes, but easy to change here.
 	BufferedImage zombieImage;
 	BufferedImage projectileImage;
+	BufferedImage backgroundImage;
+	
+	//Layout of the game:
 	int numRows;
 	int numCols;
 	int cellSize;
-	boolean gameOver = false;
-	private JFrame app;
+	
+	private JFrame app; //the main game
 
 	/**
-	 * Setup the basic info for the example
+	 * Setup of the game
 	 */
 	public MainFile(JFrame app) 
 	{
-		super();
-		Random chance = new Random(); //used for random rows and columns
+		super(); //inherits all it needs from JPanel
 		this.app = app;
+		
+		Random chance = new Random(); //used for random rows and columns
 
 		// Define some quantities of the scene
-		numRows = 5;
-		numCols = 7;
-		cellSize = 75;
-		setPreferredSize(new Dimension(50 + numCols * cellSize, 50 + numRows * cellSize));
+		numRows = 5; //5 rows from top to bottom
+		numCols = 8; //7 columns from left to right
+		cellSize = 75; //size of each cell
+		setPreferredSize(new Dimension(50 + numCols * cellSize, 100 + numRows * cellSize));
 
-		// Store all the plants and zombies in here.
-		actors = new ArrayList<>();
+		actors = new ArrayList<>(); //creates the arrayList to store all sprites
 
-		// Load images
+		// Load all images into the game
 		try 
 		{
 			plantImage = ImageIO.read(new File("src/a10/Animal-Icons/frog-icon.png"));
 			zombieImage = ImageIO.read(new File("src/a10/Animal-Icons/chihuahua-icon.png"));
 			projectileImage = ImageIO.read(new File("src/a10/Animal-Icons/crab-icon.png"));
+			backgroundImage = ImageIO.read(new File("src/a10/Other-Pictures/Temp-Background.png"));
 		} 
 		catch (IOException e) 
 		{
@@ -68,39 +76,42 @@ public class MainFile extends JPanel implements ActionListener {
 			System.exit(0);
 		}
 
-		// Starting Plant
-		Plant plant = new Plant(new Point2D.Double(200, 225),
-				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
-		
+		// Starting Plants (Creates 1 Plant that will go on each row)
+		// The + 5 after each position to to center the sprite in the center of the row
+		Plant plant = new Plant(new Point2D.Double(2 * 75 + 55, 0 + 55), new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+		actors.add(plant);
+		Plant plant2 = new Plant(new Point2D.Double(2 * 75 + 55, 75 + 55), new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+		actors.add(plant2);
+		Plant plant3 = new Plant(new Point2D.Double(2 * 75 + 55, 150 + 55), new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+		actors.add(plant3);
+		Plant plant4 = new Plant(new Point2D.Double(2 * 75 + 55, 225 + 55), new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+		actors.add(plant4);
+		Plant plant5 = new Plant(new Point2D.Double(2 * 75 + 55, 300 + 55), new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+		actors.add(plant5);
+
 		// Starting Zombie(s)
 		int chanceToAppear = chance.nextInt(100);
-		if (chanceToAppear >= 50) 
+		if (chanceToAppear >= 50) //decides if it will add a zombie or not
 		{
 			Random randomRow = new Random();
 			int randomRowYPos = (randomRow.nextInt(5)) * 75;
-			Zombie zombie3 = new Zombie(new Point2D.Double(500, randomRowYPos),
-					new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
+			Zombie zombie3 = new Zombie(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55), new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
 			actors.add(zombie3);
 		}
 		
 		// Make a zombie in a random row
 		Random randomRow = new Random();
 		int randomRowYPos = (randomRow.nextInt(5)) * 75;
-		Zombie zombie2 = new Zombie(new Point2D.Double(500, randomRowYPos),
-				new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
+		Zombie zombie2 = new Zombie(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55), new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
+		actors.add(zombie2);
 
 		//Create Projectiles
-		Projectile projectile = new Projectile(new Point2D.Double(200, 225), new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1, 1, 5, 50);
-
-		
-		// Add them to the list of actors
-		actors.add(plant);
-		actors.add(zombie2);
+		Projectile projectile = new Projectile(new Point2D.Double(2 * 75 + 55, randomRowYPos + 55), new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1, 1, 5, 50);
 		actors.add(projectile);
-
+		
 		// The timer updates the game each time it goes.
 		// Get the javax.swing Timer, not from util.
-		timer = new Timer(5, this);
+		timer = new Timer(5, this); //5 is how fast the timer will go, lower is faster
 		timer.start();
 		}
 	
@@ -112,6 +123,7 @@ public class MainFile extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
+		g.drawImage(backgroundImage, 0, 0, this);
 		for (Actor actor : actors) {
 			actor.draw(g, 0);
 			actor.drawHealthBar(g);
@@ -156,6 +168,7 @@ public class MainFile extends JPanel implements ActionListener {
 				actor.removeAction(actors); // any special effect or whatever on removal
 			}
 		}
+		
 		actors = nextTurnActors;
 
 		// Check for collisions between zombies and plants and set collision status
@@ -178,7 +191,6 @@ public class MainFile extends JPanel implements ActionListener {
 			if (actor.getPosition().getX() < 0)
 			{
 				System.out.println("You died oof"); //shows that the program is actually working
-				this.gameOver = true;
 				timer.stop();
 				app.dispose();
 				return;
@@ -187,11 +199,12 @@ public class MainFile extends JPanel implements ActionListener {
 		}
 		
 		
+		
 
 		// Redraw the new scene
 		repaint();
 	}
-
+	
 	/**
 	 * Make the game and run it
 	 * 
@@ -210,7 +223,7 @@ public class MainFile extends JPanel implements ActionListener {
 				app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Exits (Disposes and Exits (use DISPOSE_ON_CLOSE for only Dispose) of the JPanel when pressing the exit button
 				MainFile panel = new MainFile(app);
 				PlantSpawnButton plantA = new PlantSpawnButton("Plant A");
-				PlantSpawnButton plantB = new PlantSpawnButton("Plant b");
+				PlantSpawnButton plantB = new PlantSpawnButton("Plant B");
 				JLabel resourceLabel = new ResourceLabel();
 				JLabel resourceCoolDownLabel = new ResourceCoolDownLabel();
 				panel.add(plantA);
@@ -220,7 +233,6 @@ public class MainFile extends JPanel implements ActionListener {
 				app.setContentPane(panel);
 				app.pack();
 				app.setVisible(true); //allows you to actually see the window
-
 			}
 		});
 

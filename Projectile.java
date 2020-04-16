@@ -1,5 +1,7 @@
 package a10;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
@@ -64,6 +66,18 @@ public class Projectile extends Actor {
 	{
 		isColliding = false;
 		decrementCooldown();
+	}
+	
+	public void drawHealthBar(Graphics g) //Projectiles shouldn't have healthbars, so this overrides the default method so it doesn't draw it
+	{
+		/*
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+	    g.setColor(Color.BLACK);  
+		g.drawRect((int)pos.getX(),(int) pos.getY() - 10, (int)box.getX(), 5);  
+	    g.setColor(Color.RED);  
+		g.fillRect((int)pos.getX(),(int) pos.getY() - 10, (int)(box.getX() * this.health / (double)this.fullHealth), 5);  
+		*/
 	}
 
 	/**
