@@ -209,7 +209,14 @@ public class MainFile extends JPanel implements ActionListener {
 				JFrame app = new JFrame("Plants V.S. Zombies"); //Name of the Program
 				app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Exits (Disposes and Exits (use DISPOSE_ON_CLOSE for only Dispose) of the JPanel when pressing the exit button
 				MainFile panel = new MainFile(app);
-
+				PlantSpawnButton plantA = new PlantSpawnButton("Plant A");
+				PlantSpawnButton plantB = new PlantSpawnButton("Plant b");
+				JLabel resourceLabel = new ResourceLabel();
+				JLabel resourceCoolDownLabel = new ResourceCoolDownLabel();
+				panel.add(plantA);
+				panel.add(plantB);
+				panel.add(resourceLabel);
+				panel.add(resourceCoolDownLabel);
 				app.setContentPane(panel);
 				app.pack();
 				app.setVisible(true); //allows you to actually see the window
