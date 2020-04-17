@@ -1,29 +1,30 @@
 package a10;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JLabel;
-import javax.swing.Timer;
 
-public class ResourceCoolDownLabel extends JLabel implements ActionListener{
-
-	private static final long serialVersionUID = 1L;
-	private Timer timer;
+public class ResourceCoolDownLabel extends JLabel {
 	
-	public ResourceCoolDownLabel() 
-	{
-		super("0"); 
-		timer = new Timer(50, this);
-		timer.start();
-	}
+	private static int coolDownCounter;
+	private static int coolDown = 50;
+	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void actionPerformed(ActionEvent e) 
-	{
+	public void updateResourceCoolDownLabel() {
 		Resource resource = new Resource();
-		setText("Time Until Next Resource: " + resource.getCoolDown());
-		
+		setText("Time Until Next Resource: " + resource.getCoolDown());	
+	}
+	
+	public boolean readyForAction() {
+		if (coolDownCounter <= 0)
+			return true;
+		return false;
+	}
+	
+	public void resetCoolDown() {
+		coolDownCounter = coolDown;
+	}
+	
+	public void decrementCoolDown() {
+		coolDownCounter --;
 	}
 
 }
