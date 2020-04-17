@@ -74,6 +74,7 @@ public class MainFile extends JPanel implements ActionListener {
 			plantImage = ImageIO.read(new File("src/a10/Animal-Icons/frog-icon.png"));
 			zombieImage = ImageIO.read(new File("src/a10/Animal-Icons/chihuahua-icon.png"));
 			projectileImage = ImageIO.read(new File("src/a10/Animal-Icons/crab-icon.png"));
+			backgroundImage = ImageIO.read(new File("src/a10/Other-Pictures/Temp-Background.png"));
 		} catch (IOException e) {
 			System.out.println("A file was not found");
 			System.exit(0);
@@ -133,6 +134,7 @@ public class MainFile extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.drawImage(backgroundImage, 0, 0, this);
 		for (Actor actor : actors) {
 			actor.draw(g, 0);
 			actor.drawHealthBar(g);
@@ -206,7 +208,7 @@ public class MainFile extends JPanel implements ActionListener {
 				System.out.println("You died oof"); // shows that the program is actually working
 				timer.stop();
 				app.dispose();
-				return;
+				System.exit(0);
 
 			}
 		}
