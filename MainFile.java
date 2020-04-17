@@ -23,7 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class MainFile extends JPanel implements ActionListener {
+public class MainFile extends JPanel implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,6 +46,10 @@ public class MainFile extends JPanel implements ActionListener {
 	private static ResourceLabel resourceLabel = new ResourceLabel();
 	private static ResourceCoolDownLabel resourceCoolDownLabel = new ResourceCoolDownLabel();
 
+	// Plant spawner buttons
+	private static PlantASpawnButton plantA = new PlantASpawnButton();
+	private static PlantBSpawnButton plantB = new PlantBSpawnButton();
+
 	private JFrame app; // the main game
 
 	/**
@@ -55,6 +59,7 @@ public class MainFile extends JPanel implements ActionListener {
 
 		super(); // inherits all it needs from JPanel
 		this.app = app;
+		app.addMouseListener(this);
 
 		Random chance = new Random(); // used for random rows and columns
 
@@ -141,6 +146,60 @@ public class MainFile extends JPanel implements ActionListener {
 		}
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int xPos = e.getX();
+		int yPos = e.getY();
+		
+		int gridXPos = (xPos / 75) * 75;
+		int gridYPos = (yPos / 75) * 75;
+		
+		if(plantA.wasButtonClicked() == true && resource.getResource() >= plantA.getPrice()) {
+			Plant placedPlantA = plantA.placePlant(gridYPos, gridXPos);
+			actors.add(placedPlantA);
+			resource.addResource(-50);	
+			plantA.resetText();
+			plantA.buttonWasClicked();
+		}
+		
+		if(plantA.wasButtonClicked() == true && resource.getResource() <= plantA.getPrice()) {
+			plantA.insufficientFunds();
+			plantA.buttonWasClicked();
+		}
+		
+		if(plantB.wasButtonClicked() == true && resource.getResource() >= plantB.getPrice()) {
+			Plant placedPlantB = plantB.placePlant(gridYPos, gridXPos);
+			actors.add(placedPlantB);
+			resource.addResource(-100);
+			plantB.resetText();
+			plantB.buttonWasClicked();
+		}
+		
+		if(plantB.wasButtonClicked() == true && resource.getResource() <= plantB.getPrice()) {
+			plantB.insufficientFunds();
+			plantB.buttonWasClicked();
+		}
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
+	}
+	
 	/**
 	 * 
 	 * This is triggered by the timer. It is the game loop of this test.
@@ -216,6 +275,8 @@ public class MainFile extends JPanel implements ActionListener {
 		// Redraw the new scene
 		repaint();
 	}
+	
+	
 
 	/**
 	 * Make the game and run it
@@ -234,8 +295,7 @@ public class MainFile extends JPanel implements ActionListener {
 																	// for only Dispose) of the JPanel when pressing the
 																	// exit button
 				MainFile panel = new MainFile(app);
-				PlantSpawnButton plantA = new PlantSpawnButton("Plant A");
-				PlantSpawnButton plantB = new PlantSpawnButton("Plant b");
+	
 				panel.add(plantA);
 				panel.add(plantB);
 				panel.add(resourceLabel);
