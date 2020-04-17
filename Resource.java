@@ -1,29 +1,20 @@
 package a10;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
-
-public class Resource implements ActionListener {
+public class Resource {
 
 	private static int resourceAmount = 0;
 	private static int coolDownCounter;
-	private static int coolDown = 300;
-	private static Timer timer;
+	private static int coolDown = 500;
 
-	public String getCoolDown() {
-		String coolDownString = coolDownCounter + "";
-		return coolDownString;
+	public int getCoolDown() {
+		return coolDownCounter / 50;
 	}
 
-	public void resetCoolDown() 
-	{
+	public void resetCoolDown() {
 		coolDownCounter = coolDown;
 	}
 
-	public void decrementCoolDown() 
-	{
+	public void decrementCoolDown() {
 		coolDownCounter--;
 	}
 
@@ -31,8 +22,7 @@ public class Resource implements ActionListener {
 		decrementCoolDown();
 	}
 
-	public boolean readyForAction() 
-	{
+	public boolean readyForAction() {
 		if (coolDownCounter <= 0)
 			return true;
 		return false;
@@ -52,23 +42,6 @@ public class Resource implements ActionListener {
 
 	public String toString() {
 		return "" + getResource();
-	}
-
-	public Resource() {
-		timer = new Timer(300, this);
-		timer.start();
-	}
-
-	public void actionPerformed(ActionEvent e) 
-	{
-//		System.out.println(toString());
-		this.update();
-
-		if (this.readyForAction() == true) {
-			this.addResource(5);
-			this.resetCoolDown();
-		}
-		
 	}
 
 	public static void main(String args[]) {
