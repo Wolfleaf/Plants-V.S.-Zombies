@@ -41,6 +41,8 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	int numCols;
 	int cellSize;
 
+	private static ZombieDifficulty difficulty = new ZombieDifficulty();
+
 	// Resource used to buy plants, and the labels to represent it
 	private static Resource resource = new Resource();
 	private static ResourceLabel resourceLabel = new ResourceLabel();
@@ -49,6 +51,9 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	// Plant spawner buttons
 	private static PlantASpawnButton plantA = new PlantASpawnButton();
 	private static PlantBSpawnButton plantB = new PlantBSpawnButton();
+	
+	//Difficulty label
+	private static DifficultyLabel difficultyLabel = new DifficultyLabel();
 
 	private JFrame app; // the main game
 
@@ -69,6 +74,8 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		cellSize = 75; // size of each cell
 
 		resource.setResource(100); // starting resource
+		
+		difficulty.setDifficulty(99); // starting difficulty
 
 		setPreferredSize(new Dimension(50 + numCols * cellSize, 100 + numRows * cellSize));
 
@@ -150,32 +157,32 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		int xPos = e.getX();
 		int yPos = e.getY();
-		
+
 		int gridXPos = (xPos / 75) * 75;
 		int gridYPos = (yPos / 75) * 75;
-		
-		if(plantA.wasButtonClicked() == true && resource.getResource() >= plantA.getPrice()) {
+
+		if (plantA.wasButtonClicked() == true && resource.getResource() >= plantA.getPrice()) {
 			Plant placedPlantA = plantA.placePlant(gridYPos, gridXPos);
 			actors.add(placedPlantA);
-			resource.addResource(-50);	
+			resource.addResource(-50);
 			plantA.resetText();
 			plantA.buttonWasClicked();
 		}
-		
-		if(plantA.wasButtonClicked() == true && resource.getResource() <= plantA.getPrice()) {
+
+		if (plantA.wasButtonClicked() == true && resource.getResource() <= plantA.getPrice()) {
 			plantA.insufficientFunds();
 			plantA.buttonWasClicked();
 		}
-		
-		if(plantB.wasButtonClicked() == true && resource.getResource() >= plantB.getPrice()) {
+
+		if (plantB.wasButtonClicked() == true && resource.getResource() >= plantB.getPrice()) {
 			Plant placedPlantB = plantB.placePlant(gridYPos, gridXPos);
 			actors.add(placedPlantB);
 			resource.addResource(-100);
 			plantB.resetText();
 			plantB.buttonWasClicked();
 		}
-		
-		if(plantB.wasButtonClicked() == true && resource.getResource() <= plantB.getPrice()) {
+
+		if (plantB.wasButtonClicked() == true && resource.getResource() <= plantB.getPrice()) {
 			plantB.insufficientFunds();
 			plantB.buttonWasClicked();
 		}
@@ -197,9 +204,9 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * This is triggered by the timer. It is the game loop of this test.
@@ -208,6 +215,11 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+		// decrement cool down timer for difficulty and update label
+		difficulty.decrementSpawnCoolDown();
+		difficulty.decrementDifficultyCoolDown();
+		difficultyLabel.updateDifficultyLabel();
 
 		// update labels and decrement cool downs for the resource
 		resourceLabel.updateResourceLabel();
@@ -226,6 +238,25 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 			resource.resetCoolDown();
 		}
 
+		// chance to spawn Zombie
+		Random chance = new Random();
+		int chanceToAppear = chance.nextInt(1000);
+		if (chanceToAppear >= difficulty.getDifficulty() && difficulty.readyForActionSpawn() == true) // decides if it will add a zombie or not
+		{
+			Random randomRow = new Random();
+			int randomRowYPos = (randomRow.nextInt(5)) * 75;
+			Zombie zombie3 = new Zombie(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55),
+					new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
+			actors.add(zombie3);
+			difficulty.resetSpawnCoolDown();
+		}
+		
+		//Increase difficulty
+		if(difficulty.readyForActionDifficulty() == true) {
+			difficulty.setDifficulty(difficulty.getDifficulty() - 2);
+			difficulty.resetDifficultyCoolDown();
+		}
+		
 		// Increment their cooldowns and reset collision status
 		for (Actor actor : actors) {
 			actor.update();
@@ -275,8 +306,6 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		// Redraw the new scene
 		repaint();
 	}
-	
-	
 
 	/**
 	 * Make the game and run it
@@ -295,11 +324,12 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 																	// for only Dispose) of the JPanel when pressing the
 																	// exit button
 				MainFile panel = new MainFile(app);
-	
+
 				panel.add(plantA);
 				panel.add(plantB);
 				panel.add(resourceLabel);
 				panel.add(resourceCoolDownLabel);
+				panel.add(difficultyLabel);
 				app.setContentPane(panel);
 				app.pack();
 				app.setVisible(true); // allows you to actually see the window
