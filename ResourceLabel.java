@@ -1,5 +1,7 @@
 package a10;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 
 public class ResourceLabel extends JLabel {
@@ -9,7 +11,7 @@ public class ResourceLabel extends JLabel {
 	public void updateResourceLabel() {
 		Resource resource = new Resource();
 		setText("Current Resource: " + resource.toString());
-		
+		this.setForeground(Color.white);
 	}
 
 }
