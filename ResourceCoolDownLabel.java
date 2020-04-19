@@ -1,5 +1,7 @@
 package a10;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 
 public class ResourceCoolDownLabel extends JLabel {
@@ -11,6 +13,7 @@ public class ResourceCoolDownLabel extends JLabel {
 	public void updateResourceCoolDownLabel() {
 		Resource resource = new Resource();
 		setText("Time Until Next Resource: " + resource.getCoolDown());	
+		this.setForeground(Color.white);
 	}
 	
 	public boolean readyForAction() {
