@@ -71,7 +71,7 @@ public class Zombie extends Actor {
 	@Override
 	public void attack(Actor other) 
 	{
-		if (other instanceof Plant || other instanceof Projectile) 
+		if (other instanceof Plant || other instanceof Projectile)
 		{
 			super.attack(other);
 		}

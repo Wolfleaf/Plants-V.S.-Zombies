@@ -43,7 +43,7 @@ public class PlantBSpawnButton extends JButton implements ActionListener {
 
 	public PlantB placePlantB(int yPos, int xPos) {
 		PlantB plant = new PlantB(new Point2D.Double(xPos - 20, yPos - 20),
-				new Point2D.Double(plantBImage.getWidth(), plantBImage.getHeight()), plantBImage, 100, 30, 0, 200);
+				new Point2D.Double(plantBImage.getWidth(), plantBImage.getHeight()), plantBImage, 50, 30, 0, 200);
 		return plant;
 	}
 	

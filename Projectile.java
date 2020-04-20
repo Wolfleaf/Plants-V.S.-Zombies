@@ -55,8 +55,11 @@ public class Projectile extends Actor {
 	 */
 	public void setCollisionStatus(Actor other) 
 	{
-		if (other instanceof Zombie && this.isCollidingOther(other)) //only collides with zombies
+		if (other instanceof Zombie && this.isCollidingOther(other))
+		{//only collides with zombies
 			setColliding(true);
+			this.changeHealth(-1000);
+		}
 	}
 
 	/**
