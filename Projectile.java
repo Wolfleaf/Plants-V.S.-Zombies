@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 public class Projectile extends Actor {
 
 	private boolean isColliding;
+	private BufferedImage projectileImage;
 
 	public Projectile(Double startingPosition, Double initHitbox, BufferedImage img, int health, int coolDown, double speed, int attackDamage) 
 	{
@@ -94,4 +95,5 @@ public class Projectile extends Actor {
 			super.attack(other);
 		}
 	}
+
 }

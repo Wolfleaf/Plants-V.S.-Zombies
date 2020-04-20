@@ -34,16 +34,17 @@ public class PlantASpawnButton extends JButton implements ActionListener {
 		addActionListener(this);
 
 		try {
-			plantAImage = ImageIO.read(new File("src/a10/Animal-Icons/frog-icon.png"));
+			plantAImage = ImageIO.read(new File("src/a10/GameSprites/PersonA.png"));
 		} catch (IOException e) {
 			System.out.println("A file was not found");
 			System.exit(0);
 		}
 	}
 
-	public Plant placePlant(int yPos, int xPos) {
-		Plant plant = new Plant(new Point2D.Double(xPos - 20, yPos - 20),
-				new Point2D.Double(plantAImage.getWidth(), plantAImage.getHeight()), plantAImage, 100, 30, 1);
+	public PlantA placePlantA(int yPos, int xPos) 
+	{
+		PlantA plant = new PlantA(new Point2D.Double(xPos - 20, yPos - 20),
+				new Point2D.Double(plantAImage.getWidth(), plantAImage.getHeight()), plantAImage, 200, 30, 1);
 		setText("Plant A Cost: " + plantAPrice);
 		return plant;
 	}

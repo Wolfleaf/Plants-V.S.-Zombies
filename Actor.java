@@ -127,6 +127,15 @@ public class Actor extends Sprite implements Attack {
 		
 	}
 	
+	public int getCooldown() 
+	{
+		return 1;
+	}
+	
+	public void setCooldown(int newCooldown)
+	{
+	}
+	
 //	/**
 //	 * An Actor doesn't need to set collision status, but a Zombie can override this.
 //	 * @param other

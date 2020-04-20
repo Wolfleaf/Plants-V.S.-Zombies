@@ -73,7 +73,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		numCols = 7; // 7 columns left to right
 		cellSize = 75; // size of each cell
 
-		resource.setResource(100); // starting resource
+		resource.setResource(475); // starting resource
 		
 		difficulty.setDifficulty(99); // starting difficulty
 
@@ -83,56 +83,57 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 
 		// Load all images into the game
 		try {
-			plantImage = ImageIO.read(new File("src/a10/Animal-Icons/frog-icon.png"));
-			zombieImage = ImageIO.read(new File("src/a10/Animal-Icons/chihuahua-icon.png"));
-			projectileImage = ImageIO.read(new File("src/a10/Animal-Icons/crab-icon.png"));
+			zombieImage = ImageIO.read(new File("src/a10/GameSprites/CrabA.png"));
+			projectileImage = ImageIO.read(new File("src/a10/GameSprites/Rock.png"));
 			backgroundImage = ImageIO.read(new File("src/a10/Other-Pictures/Temp-Background.png"));
 		} catch (IOException e) {
 			System.out.println("A file was not found");
 			System.exit(0);
 		}
 
-		// Starting Plants (Creates 1 Plant that will go on each row)
-		// The + 55 after each position to to center the sprite in the center of the row
-		Plant plant = new Plant(new Point2D.Double(2 * 75 + 55, 0 + 55),
-				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
-		actors.add(plant);
-		Plant plant2 = new Plant(new Point2D.Double(2 * 75 + 55, 75 + 55),
-				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
-		actors.add(plant2);
-		Plant plant3 = new Plant(new Point2D.Double(2 * 75 + 55, 150 + 55),
-				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
-		actors.add(plant3);
-		Plant plant4 = new Plant(new Point2D.Double(2 * 75 + 55, 225 + 55),
-				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
-		actors.add(plant4);
-		Plant plant5 = new Plant(new Point2D.Double(2 * 75 + 55, 300 + 55),
-				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
-		actors.add(plant5);
-
-		// Starting Zombie(s)
-		int chanceToAppear = chance.nextInt(100);
-		if (chanceToAppear >= 50) // decides if it will add a zombie or not
-		{
-			Random randomRow = new Random();
-			int randomRowYPos = (randomRow.nextInt(5)) * 75;
-			Zombie zombie3 = new Zombie(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55),
-					new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
-			actors.add(zombie3);
-		}
-
-		// Make a zombie in a random row
-		Random randomRow = new Random();
-		int randomRowYPos = (randomRow.nextInt(5)) * 75;
-		Zombie zombie2 = new Zombie(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55),
-				new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
-		actors.add(zombie2);
-
-		// Create Projectiles
-		Projectile projectile = new Projectile(new Point2D.Double(2 * 75 + 55, randomRowYPos + 55),
-				new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1, 1, 5,
-				50);
-		actors.add(projectile);
+//		// Starting Plants (Creates 1 Plant that will go on each row)
+//		// The + 55 after each position to to center the sprite in the center of the row
+//		PlantA plant = new PlantA(new Point2D.Double(2 * 75 + 55, 0 + 55),
+//				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+//		actors.add(plant);
+//		PlantA plant2 = new PlantA(new Point2D.Double(2 * 75 + 55, 75 + 55),
+//				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+//		actors.add(plant2);
+//		PlantA plant3 = new PlantA(new Point2D.Double(2 * 75 + 55, 150 + 55),
+//				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+//		actors.add(plant3);
+//		PlantA plant4 = new PlantA(new Point2D.Double(2 * 75 + 55, 225 + 55),
+//				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+//		actors.add(plant4);
+//		PlantA plant5 = new PlantA(new Point2D.Double(2 * 75 + 55, 300 + 55),
+//				new Point2D.Double(plantImage.getWidth(), plantImage.getHeight()), plantImage, 100, 30, 1);
+//		actors.add(plant5);
+//
+//		// Starting Zombie(s)
+//		int chanceToAppear = chance.nextInt(100);
+//		if (chanceToAppear >= 50) // decides if it will add a zombie or not
+//		{
+//			Random randomRow = new Random();
+//			int randomRowYPos = (randomRow.nextInt(5)) * 75;
+//			Zombie zombie3 = new Zombie(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55),
+//					new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
+//			actors.add(zombie3);
+//		}
+//
+//		// Make a zombie in a random row
+//		Random randomRow = new Random();
+//		int randomRowYPos = (randomRow.nextInt(5)) * 75;
+//		Zombie zombie2 = new Zombie(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55),
+//				new Point2D.Double(zombieImage.getWidth(), zombieImage.getHeight()), zombieImage, 100, 30, -0.5, 1);
+//		actors.add(zombie2);
+//
+//		// Create Projectiles
+//		Projectile projectile = new Projectile(new Point2D.Double(2 * 75 + 55, randomRowYPos + 55),
+//				new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1, 1, 5,
+//				50);
+//		actors.add(projectile);
+		
+		
 
 		// The timer updates the game each time it goes.
 		// Get the javax.swing Timer, not from util.
@@ -162,7 +163,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		int gridYPos = (yPos / 75) * 75;
 
 		if (plantA.wasButtonClicked() == true && resource.getResource() >= plantA.getPrice()) {
-			Plant placedPlantA = plantA.placePlant(gridYPos, gridXPos);
+			PlantA placedPlantA = plantA.placePlantA(gridYPos, gridXPos);
 			actors.add(placedPlantA);
 			resource.addResource(-50);
 			plantA.resetText();
@@ -175,7 +176,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		}
 
 		if (plantB.wasButtonClicked() == true && resource.getResource() >= plantB.getPrice()) {
-			Plant placedPlantB = plantB.placePlant(gridYPos, gridXPos);
+			Plant placedPlantB = plantB.placePlantB(gridYPos, gridXPos);
 			actors.add(placedPlantB);
 			resource.addResource(-100);
 			plantB.resetText();
@@ -214,8 +215,8 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	 * @param e
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-
+	public void actionPerformed(ActionEvent e) 
+	{
 		// decrement cool down timer for difficulty and update label
 		difficulty.decrementSpawnCoolDown();
 		difficulty.decrementDifficultyCoolDown();
@@ -279,8 +280,6 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 			}
 		}
 
-		actors = nextTurnActors;
-
 		// Check for collisions between zombies and plants and set collision status
 		for (Actor actor : actors) {
 			for (Actor other : actors) {
@@ -292,6 +291,16 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		for (Actor actor : actors) {
 			actor.move(); // only moves if it is not colliding
 		}
+		
+		for (Actor actor : actors) {
+			if (actor.getCooldown() <= 0)
+				{
+					Projectile projectile = new Projectile(new Point2D.Double((int) Math.round(actor.getPosition().getX()), (int) Math.round(actor.getPosition().getY())), 
+						new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1, 1, 5, 5);
+					nextTurnActors.add(projectile);
+					actor.setCooldown(100);
+				}
+		}
 
 		for (Actor actor : actors) {
 			if (actor.getPosition().getX() < 0) {
@@ -299,9 +308,10 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 				timer.stop();
 				app.dispose();
 				System.exit(0);
-
 			}
 		}
+		
+		actors = nextTurnActors;
 
 		// Redraw the new scene
 		repaint();
