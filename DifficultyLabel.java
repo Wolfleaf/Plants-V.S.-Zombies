@@ -9,7 +9,7 @@ public class DifficultyLabel extends JLabel {
 	private static final long serialVersionUID = 1L;
 
 	public void updateDifficultyLabel() {
-		ZombieDifficulty difficulty = new ZombieDifficulty();
+		Difficulty difficulty = new Difficulty();
 		setText("Current Difficulty: " + difficulty.toString());
 		//this.setForeground(Color.white);
 	}

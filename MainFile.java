@@ -44,7 +44,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	int numCols;
 	int cellSize;
 
-	private static ZombieDifficulty difficulty = new ZombieDifficulty();
+	private static Difficulty difficulty = new Difficulty();
 
 	// Resource used to buy plants, and the labels to represent it
 	private static Resource resource = new Resource();
@@ -52,8 +52,8 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	private static ResourceCoolDownLabel resourceCoolDownLabel = new ResourceCoolDownLabel();
 
 	// Plant spawner buttons
-	private static PlantASpawnButton plantA = new PlantASpawnButton();
-	private static PlantBSpawnButton plantB = new PlantBSpawnButton();
+	private static LifeguardASpawnButton plantA = new LifeguardASpawnButton();
+	private static LifeguardBSpawnButton plantB = new LifeguardBSpawnButton();
 
 	// Difficulty label
 	private static DifficultyLabel difficultyLabel = new DifficultyLabel();
@@ -80,7 +80,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 
 		difficulty.setDifficulty(99); // starting difficulty
 
-		setPreferredSize(new Dimension(50 + numCols * cellSize, 100 + numRows * cellSize));
+		setPreferredSize(new Dimension(50 + (numCols + 1) * (cellSize), 100 + numRows * cellSize));
 
 		actors = new ArrayList<>(); // creates an arraylist to store all the sprites
 
@@ -136,7 +136,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 
 		if (plantA.wasButtonClicked() == true && resource.getResource() >= plantA.getPrice()
 				&& spaceOccupied == false) {
-			PlantA placedPlantA = plantA.placePlantA(gridYPos, gridXPos);
+			LifeguardA placedPlantA = plantA.placePlantA(gridYPos, gridXPos);
 			actors.add(placedPlantA);
 			resource.addResource(-50);
 			plantA.resetText();
@@ -153,7 +153,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		if (plantB.wasButtonClicked() == true && resource.getResource() >= plantB.getPrice()
 				&& spaceOccupied == false) {
 
-			Plant placedPlantB = plantB.placePlantB(gridYPos, gridXPos);
+			Lifeguard placedPlantB = plantB.placePlantB(gridYPos, gridXPos);
 			actors.add(placedPlantB);
 			actors.add(placedPlantB);
 			resource.addResource(-100);
@@ -228,14 +228,14 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 			int randomRowXPos = (randomRow.nextInt(4)) * 75;
 			if (chanceToAppear % 2 == 0 || chanceToAppear % 3 == 0)
 			{
-				ZombieA newZombie = new ZombieA(new Point2D.Double(7 * 75 + 55, randomRowYPos + 55),
+				CrabA newZombie = new CrabA(new Point2D.Double(8 * 75 + 55, randomRowYPos + 55),
 						new Point2D.Double(zombieImageA.getWidth(), zombieImageA.getHeight()), zombieImageA, 100, 30, -0.5, 1);
 				actors.add(newZombie);
 				System.out.println("Spawned Zombie type A");
 			}
 			else
 			{
-				ZombieB newZombie = new ZombieB(new Point2D.Double(3 * 75 + 55 + randomRowXPos, randomRowYPos + 55),
+				CrabB newZombie = new CrabB(new Point2D.Double(3 * 75 + 55 + randomRowXPos, randomRowYPos + 55),
 						new Point2D.Double(zombieImageB.getWidth(), zombieImageB.getHeight()), zombieImageB, 100, 30, -0.8, 1);
 				actors.add(newZombie);
 				System.out.println("Spawned Zombie type B");
@@ -327,9 +327,9 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		// Schedule a job for the event-dispatching thread:
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				System.out.println("Running Plants V.S. Zombies");
+				System.out.println("Running Crabs V.S. Lifeguards");
 				System.out.println("Created by Guyan Cool and Alexander Thomsen");
-				JFrame app = new JFrame("Plants V.S. Zombies"); // Name of the Program
+				JFrame app = new JFrame("Crabs V.S. Lifeguards"); // Name of the Program
 				app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exits (Disposes and Exits (use DISPOSE_ON_CLOSE
 																	// for only Dispose) of the JPanel when pressing the
 																	// exit button
