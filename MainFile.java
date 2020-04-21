@@ -51,8 +51,8 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	// Plant spawner buttons
 	private static PlantASpawnButton plantA = new PlantASpawnButton();
 	private static PlantBSpawnButton plantB = new PlantBSpawnButton();
-	
-	//Difficulty label
+
+	// Difficulty label
 	private static DifficultyLabel difficultyLabel = new DifficultyLabel();
 
 	private JFrame app; // the main game
@@ -74,7 +74,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		cellSize = 75; // size of each cell
 
 		resource.setResource(475); // starting resource
-		
+
 		difficulty.setDifficulty(99); // starting difficulty
 
 		setPreferredSize(new Dimension(50 + numCols * cellSize, 100 + numRows * cellSize));
@@ -83,8 +83,8 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 
 		// Load all images into the game
 		try {
-			zombieImage = ImageIO.read(new File("src/a10/GameSprites/CrabA.png"));
-			projectileImage = ImageIO.read(new File("src/a10/GameSprites/Rock.png"));
+			zombieImage = ImageIO.read(new File("src/a10/Game-Sprites/CrabA.png"));
+			projectileImage = ImageIO.read(new File("src/a10/Game-Sprites/Rock.png"));
 			backgroundImage = ImageIO.read(new File("src/a10/Other-Pictures/Temp-Background.png"));
 		} catch (IOException e) {
 			System.out.println("A file was not found");
@@ -132,8 +132,6 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 //				new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1, 1, 5,
 //				50);
 //		actors.add(projectile);
-		
-		
 
 		// The timer updates the game each time it goes.
 		// Get the javax.swing Timer, not from util.
@@ -161,8 +159,17 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 
 		int gridXPos = (xPos / 75) * 75;
 		int gridYPos = (yPos / 75) * 75;
+		boolean spaceOccupied = false;
 
-		if (plantA.wasButtonClicked() == true && resource.getResource() >= plantA.getPrice()) {
+		for (Actor actor : actors) {
+			if (actor.isCollidingPoint(new Point2D.Double(xPos, yPos))) {
+				spaceOccupied = true;
+			}
+
+		}
+
+		if (plantA.wasButtonClicked() == true && resource.getResource() >= plantA.getPrice()
+				&& spaceOccupied == false) {
 			PlantA placedPlantA = plantA.placePlantA(gridYPos, gridXPos);
 			actors.add(placedPlantA);
 			resource.addResource(-50);
@@ -170,20 +177,27 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 			plantA.buttonWasClicked();
 		}
 
-		if (plantA.wasButtonClicked() == true && resource.getResource() <= plantA.getPrice()) {
+		if (plantA.wasButtonClicked() == true && resource.getResource() <= plantA.getPrice())
+
+		{
 			plantA.insufficientFunds();
 			plantA.buttonWasClicked();
 		}
 
-		if (plantB.wasButtonClicked() == true && resource.getResource() >= plantB.getPrice()) {
+		if (plantB.wasButtonClicked() == true && resource.getResource() >= plantB.getPrice()
+				&& spaceOccupied == false) {
+
 			Plant placedPlantB = plantB.placePlantB(gridYPos, gridXPos);
+			actors.add(placedPlantB);
 			actors.add(placedPlantB);
 			resource.addResource(-100);
 			plantB.resetText();
 			plantB.buttonWasClicked();
 		}
 
-		if (plantB.wasButtonClicked() == true && resource.getResource() <= plantB.getPrice()) {
+		if (plantB.wasButtonClicked() == true && resource.getResource() <= plantB.getPrice())
+
+		{
 			plantB.insufficientFunds();
 			plantB.buttonWasClicked();
 		}
@@ -215,8 +229,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 	 * @param e
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) 
-	{
+	public void actionPerformed(ActionEvent e) {
 		// decrement cool down timer for difficulty and update label
 		difficulty.decrementSpawnCoolDown();
 		difficulty.decrementDifficultyCoolDown();
@@ -242,7 +255,9 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		// chance to spawn Zombie
 		Random chance = new Random();
 		int chanceToAppear = chance.nextInt(1000);
-		if (chanceToAppear >= difficulty.getDifficulty() && difficulty.readyForActionSpawn() == true) // decides if it will add a zombie or not
+		if (chanceToAppear >= difficulty.getDifficulty() && difficulty.readyForActionSpawn() == true) // decides if it
+																										// will add a
+																										// zombie or not
 		{
 			Random randomRow = new Random();
 			int randomRowYPos = (randomRow.nextInt(5)) * 75;
@@ -251,13 +266,13 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 			actors.add(zombie3);
 			difficulty.resetSpawnCoolDown();
 		}
-		
-		//Increase difficulty
-		if(difficulty.readyForActionDifficulty() == true) {
+
+		// Increase difficulty
+		if (difficulty.readyForActionDifficulty() == true) {
 			difficulty.setDifficulty(difficulty.getDifficulty() - 2);
 			difficulty.resetDifficultyCoolDown();
 		}
-		
+
 		// Increment their cooldowns and reset collision status
 		for (Actor actor : actors) {
 			actor.update();
@@ -291,15 +306,17 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 		for (Actor actor : actors) {
 			actor.move(); // only moves if it is not colliding
 		}
-		
+
 		for (Actor actor : actors) {
-			if (actor.getCooldown() <= 0)
-				{
-					Projectile projectile = new Projectile(new Point2D.Double((int) Math.round(actor.getPosition().getX()), (int) Math.round(actor.getPosition().getY())), 
-						new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1, 1, 5, 5);
-					nextTurnActors.add(projectile);
-					actor.setCooldown(100);
-				}
+			if (actor.getCooldown() <= 0) {
+				Projectile projectile = new Projectile(
+						new Point2D.Double((int) Math.round(actor.getPosition().getX()),
+								(int) Math.round(actor.getPosition().getY())),
+						new Point2D.Double(projectileImage.getWidth(), projectileImage.getHeight()), projectileImage, 1,
+						1, 5, 5);
+				nextTurnActors.add(projectile);
+				actor.setCooldown(100);
+			}
 		}
 
 		for (Actor actor : actors) {
@@ -310,7 +327,7 @@ public class MainFile extends JPanel implements ActionListener, MouseListener {
 				System.exit(0);
 			}
 		}
-		
+
 		actors = nextTurnActors;
 
 		// Redraw the new scene
