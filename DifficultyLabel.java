@@ -11,7 +11,7 @@ public class DifficultyLabel extends JLabel {
 	public void updateDifficultyLabel() {
 		ZombieDifficulty difficulty = new ZombieDifficulty();
 		setText("Current Difficulty: " + difficulty.toString());
-		this.setForeground(Color.white);
+		//this.setForeground(Color.white);
 	}
 
 }

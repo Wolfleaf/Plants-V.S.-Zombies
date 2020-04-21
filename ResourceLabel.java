@@ -11,7 +11,7 @@ public class ResourceLabel extends JLabel {
 	public void updateResourceLabel() {
 		Resource resource = new Resource();
 		setText("Current Resource: " + resource.toString());
-		this.setForeground(Color.white);
+		//this.setForeground(Color.white);
 	}
 
 }

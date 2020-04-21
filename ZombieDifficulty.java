@@ -3,10 +3,10 @@ package a10;
 public class ZombieDifficulty {
 
 	private static int difficulty = 999;
-	private static int coolDownCounterSpawn;
-	private static int coolDownSpawn = 1000;
+	private static double coolDownCounterSpawn;
+	private static double coolDownSpawn = 1000;
 	private static int coolDownCounterDifficulty;
-	private static int coolDownDifficulty = 100000;
+	private static int coolDownDifficulty = 10;
 	
 	public void setDifficulty(int difficulty_) {
 		difficulty = difficulty_;
@@ -20,7 +20,8 @@ public class ZombieDifficulty {
 		coolDownCounterSpawn --;
 	}
 	
-	public void resetSpawnCoolDown() {
+	public void resetSpawnCoolDown() 
+	{
 		coolDownCounterSpawn = coolDownSpawn; 
 	}
 	
@@ -38,7 +39,18 @@ public class ZombieDifficulty {
 		coolDownCounterDifficulty = coolDownDifficulty; 
 	}
 	
-	public boolean readyForActionDifficulty() {
+	public int getCoolDownCounterDifficulty()
+	{
+		return coolDownCounterDifficulty;
+	}
+	
+	public void changeCoolDownSpawn()
+	{
+		coolDownSpawn *= 0.75;
+	}
+	
+	public boolean readyForActionDifficulty() 
+	{
 		if (coolDownCounterDifficulty <= 0)
 			return true;
 		return false;
